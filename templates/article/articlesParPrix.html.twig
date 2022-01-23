@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+{% block title%} Liste des Articles par prix{% endblock %}
+  {% block stylesheets %}
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+  {% endblock %}
+{% block body %}
+    {{include('header/navbar.html.twig')}}
+
+    {{ form_start(form) }}
+<div class="form-row align-items-end" >
+    <div class="col">
+        {{ form_row(form.minPrice) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.maxPrice) }}
+    </div>
+    <div class="col">
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Rechercher</button>
+        </div>
+    </div>
+</div>
+{{ form_end(form) }}
+{% if articles %}
+<table id="articles" class="table table-striped">
+    <thead>
+    <tr>
+        <th>Nom</th>
+        <th>Prix</th>
+        <th>Catégorie</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for article in articles %}
+    <tr>
+        <td>{{ article.nom }}</td>
+        <td>{{ article.prix }}</td>
+        <td>{{ article.category.titre }}</td>
+        <td>
+            <a href="/article/{{ article.id }}" class="btn btndark">Détails</a>
+            <a href="/article/edit/{{ article.id }}" class="btn btndark">Modifier</a>
+            <a href="/article/delete/{{ article.id }}" class="btn btndanger"
+               onclick="return confirm('Etesvous sûr de supprimer cet article?');">Supprimer</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+    <p>Aucun articles</p>
+{% endif %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+{% endblock %}
